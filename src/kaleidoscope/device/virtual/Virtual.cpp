@@ -26,7 +26,7 @@
 #include "kaleidoscope/key_defs.h"
 
 
-#include "HIDReportObserver.h"
+#include "kaleidoscope/driver/hid/keyboardio/usb/HIDReportObserver.h"
 #include "virtual_io.h"
 #include "EEPROM.h"
 
