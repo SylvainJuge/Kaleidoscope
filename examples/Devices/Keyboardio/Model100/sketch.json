@@ -1,6 +1,6 @@
 {
   "cpu": {
-    "fqbn": "keyboardio:gd32:keyboardio_model_100",
+    "fqbn": "keyboardio:gd32:gd_generic_f30x:upload_method=stlinkMethod,opt=ogstd",
     "port": ""
   }
 }

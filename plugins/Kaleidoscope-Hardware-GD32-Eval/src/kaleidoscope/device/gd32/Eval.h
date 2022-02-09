@@ -22,6 +22,7 @@
 #include <Arduino.h>
 
 #include "kaleidoscope/device/Base.h"
+#include "kaleidoscope/driver/hid/Keyboardio.h"
 #include "kaleidoscope/driver/storage/GD32Flash.h"
 #include "kaleidoscope/driver/bootloader/gd32/Base.h"
 
@@ -32,6 +33,9 @@ namespace gd32 {
 struct EvalStorageProps: kaleidoscope::driver::storage::GD32FlashProps {};
 
 struct EvalProps: kaleidoscope::device::BaseProps {
+  typedef kaleidoscope::driver::hid::KeyboardioProps HIDProps;
+  typedef kaleidoscope::driver::hid::Keyboardio<HIDProps> HID;
+
   typedef kaleidoscope::driver::bootloader::gd32::Base BootLoader;
   typedef EvalStorageProps StorageProps;
   typedef kaleidoscope::driver::storage::GD32Flash<StorageProps> Storage;
