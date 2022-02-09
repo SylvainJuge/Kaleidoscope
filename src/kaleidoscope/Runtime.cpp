@@ -46,9 +46,9 @@ Runtime_::setup(void) {
   device().setup();
 
   // Clear the keyboard state array (all keys idle at start)
-  live_keys.clear();
+  //live_keys.clear();
 
-  Layer.setup();
+  //Layer.setup();
 }
 
 // ----------------------------------------------------------------------------

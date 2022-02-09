@@ -83,6 +83,9 @@ class LiveKeys {
 
   /// Clear the entire array by setting all values to `Key_Inactive`.
   void clear() {
+    if (kaleidoscope_internal::device.numKeys() == 0)
+      return;
+
     for (Key &key : key_map_) {
       key = Key_Inactive;
     }

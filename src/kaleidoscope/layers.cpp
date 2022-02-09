@@ -147,6 +147,9 @@ Key Layer_::getKeyFromPROGMEM(uint8_t layer, KeyAddr key_addr) {
 }
 
 void Layer_::updateActiveLayers(void) {
+  if (kaleidoscope_internal::device.numKeys() == 0)
+    return;
+
   // First, set every entry in the active layer keymap to point to the default
   // layer (layer 0).
   memset(active_layer_keymap_, 0, kaleidoscope_internal::device.numKeys());
