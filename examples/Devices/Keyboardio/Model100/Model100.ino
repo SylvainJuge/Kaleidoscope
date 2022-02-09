@@ -4,10 +4,12 @@
 
 //#include "Kaleidoscope-MouseKeys.h"
 
+KEYMAPS(
+    [0] = KEYMAP(XXX, XXX)
+)
+
 KALEIDOSCOPE_INIT_PLUGINS(
-  Focus,
-  FocusSettingsCommand,
-  FocusEEPROMCommand
+  Focus
 );
 
 void setup() {

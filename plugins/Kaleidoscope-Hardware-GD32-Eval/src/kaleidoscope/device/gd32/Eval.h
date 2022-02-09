@@ -26,6 +26,8 @@
 #include "kaleidoscope/driver/storage/GD32Flash.h"
 #include "kaleidoscope/driver/bootloader/gd32/Base.h"
 
+#include "kaleidoscope/device/gd32/eval/KeyScanner.h"
+
 namespace kaleidoscope {
 namespace device {
 namespace gd32 {
@@ -35,6 +37,9 @@ struct EvalStorageProps: kaleidoscope::driver::storage::GD32FlashProps {};
 struct EvalProps: kaleidoscope::device::BaseProps {
   typedef kaleidoscope::driver::hid::KeyboardioProps HIDProps;
   typedef kaleidoscope::driver::hid::Keyboardio<HIDProps> HID;
+
+  typedef eval::KeyScannerProps KeyScannerProps;
+  typedef eval::KeyScanner KeyScanner;
 
   typedef kaleidoscope::driver::bootloader::gd32::Base BootLoader;
   typedef EvalStorageProps StorageProps;
