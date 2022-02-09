@@ -56,7 +56,7 @@ void
 Runtime_::loop(void) {
   millis_at_cycle_start_ = millis();
 
-#if 0
+#if 1
   kaleidoscope::Hooks::beforeEachCycle();
 #endif
 
@@ -65,7 +65,7 @@ Runtime_::loop(void) {
   // `beforeReportingState()` being called every cycle. In most cases, they can
   // simply switch to using `afterEachCycle()`, but we don't want to simply
   // break those plugins.
-#if 0
+#if 1
   kaleidoscope::Hooks::beforeReportingState();
 #endif
   // Also for backwards compatibility. If user code calls any code that directly
@@ -84,7 +84,7 @@ Runtime_::loop(void) {
   // event is being handled at a time.
   device().scanMatrix();
 
-#if 0
+#if 1
   kaleidoscope::Hooks::afterEachCycle();
 #endif
 }
