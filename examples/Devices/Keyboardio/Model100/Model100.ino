@@ -18,7 +18,7 @@
 
 // Support for storing the keymap in EEPROM
 #include "Kaleidoscope-EEPROM-Settings.h"
-//#include "Kaleidoscope-EEPROM-Keymap.h"
+#include "Kaleidoscope-EEPROM-Keymap.h"
 
 // Support for communicating with the host via a simple Serial protocol
 #include "Kaleidoscope-FocusSerial.h"
@@ -426,7 +426,7 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // The EEPROMSettings & EEPROMKeymap plugins make it possible to have an
   // editable keymap in EEPROM.
  EEPROMSettings,
- //EEPROMKeymap,
+ EEPROMKeymap,
 
   // Focus allows bi-directional communication with the host, and is the
   // interface through which the keymap in EEPROM can be edited.
@@ -550,7 +550,7 @@ void setup() {
   // one wants to use these layers, just set the default layer to one in EEPROM,
   // by using the `settings.defaultLayer` Focus command, or by using the
   // `keymap.onlyCustom` command to use EEPROM layers only.
-  //EEPROMKeymap.setup(5);
+  EEPROMKeymap.setup(5);
 
   // We need to tell the Colormap plugin how many layers we want to have custom
   // maps for. To make things simple, we set it to five layers, which is how
