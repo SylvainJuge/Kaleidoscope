@@ -17,6 +17,8 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
 void setup() {
   Kaleidoscope.setup();
+
+  delay(10000);
 }
 
 void loop() {
