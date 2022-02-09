@@ -56,14 +56,18 @@ void
 Runtime_::loop(void) {
   millis_at_cycle_start_ = millis();
 
+#if 0
   kaleidoscope::Hooks::beforeEachCycle();
+#endif
 
 #ifndef NDEPRECATED
   // For backwards compatibility. Some plugins rely on the handler for
   // `beforeReportingState()` being called every cycle. In most cases, they can
   // simply switch to using `afterEachCycle()`, but we don't want to simply
   // break those plugins.
+#if 0
   kaleidoscope::Hooks::beforeReportingState();
+#endif
   // Also for backwards compatibility. If user code calls any code that directly
   // changes the HID report(s) at any point between an event being detected and
   // the end of `handleKeyEvent()` (most likely from `beforeReportingState()`),
@@ -80,7 +84,9 @@ Runtime_::loop(void) {
   // event is being handled at a time.
   device().scanMatrix();
 
+#if 0
   kaleidoscope::Hooks::afterEachCycle();
+#endif
 }
 
 // ----------------------------------------------------------------------------

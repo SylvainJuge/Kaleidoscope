@@ -17,5 +17,5 @@ void setup() {
 }
 
 void loop() {
-  //Kaleidoscope.loop();
+  Kaleidoscope.loop();
 }
