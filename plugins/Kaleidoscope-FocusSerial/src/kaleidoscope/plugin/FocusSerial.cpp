@@ -27,9 +27,29 @@ namespace plugin {
 char FocusSerial::command_[32];
 
 void FocusSerial::drain(void) {
-  if (Runtime.serialPort().available())
-    while (Runtime.serialPort().peek() != '\n')
-      Runtime.serialPort().read();
+  if (!Runtime.serialPort().available())
+    return;
+
+  uint32_t last_available = millis();
+
+  do {
+    if (!Runtime.serialPort().available()) {
+      // If we didn't have anything available in the last 100 millis, bail.
+      if (Runtime.hasTimeExpired(last_available, 100))
+        break;
+
+      // Otherwise wait a bit more.
+      continue;
+    } else {
+      last_available = millis();
+    }
+
+    if (Runtime.serialPort().peek() != '\n') {
+      Runtime.serialPort.read();
+    } else {
+      break;
+    }
+  } while (true);
 }
 
 EventHandlerResult FocusSerial::afterEachCycle() {
