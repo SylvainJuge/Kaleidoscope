@@ -16,7 +16,8 @@
   SOFTWARE.
  */
 
-#pragma once
+#ifndef HID_h
+#define HID_h
 
 #include <stdint.h>
 #include <Arduino.h>
@@ -58,6 +59,7 @@
 #define HID_REPORT_TYPE_OUTPUT  2
 #define HID_REPORT_TYPE_FEATURE 3
 
+#pragma pack(push, 1)
 typedef struct {
   uint8_t len;      // 9
   uint8_t dtype;    // 0x21
@@ -75,6 +77,7 @@ typedef struct {
   HIDDescDescriptor   desc;
   EndpointDescriptor  in;
 } HIDDescriptor;
+#pragma pack(pop)
 
 class HIDSubDescriptor {
  public:
@@ -88,13 +91,13 @@ class HIDSubDescriptor {
 class HID_ : public PluggableUSBModule {
  public:
 
-  HID_(void);
-  int begin(void);
+  HID_();
+  int begin();
   int SendReport(uint8_t id, const void* data, int len);
   void AppendDescriptor(HIDSubDescriptor* node);
-  uint8_t getLEDs(void) {
+  uint8_t getLEDs() {
     return setReportData.leds;
-  }
+  };
 
  protected:
   // Implementation of the PluggableUSBModule
@@ -126,3 +129,5 @@ HID_& HID();
 #define D_HIDREPORT(length) { 9, 0x21, 0x01, 0x01, 0, 1, 0x22, lowByte(length), highByte(length) }
 
 #endif // USBCON
+
+#endif // HID_h

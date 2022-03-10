@@ -45,30 +45,30 @@ typedef union {
 
 class BootKeyboard_ : public PluggableUSBModule {
  public:
-  BootKeyboard_(void);
-  size_t press(uint8_t);
-  void begin(void);
-  void end(void);
-  size_t release(uint8_t);
-  void releaseAll(void);
+  BootKeyboard_(uint8_t protocol_ = HID_REPORT_PROTOCOL);
+  size_t press(uint8_t k);
+  void begin();
+  void end();
+  size_t release(uint8_t k);
+  void releaseAll();
 
-  int sendReport(void);
+  int sendReport();
 
-  boolean isModifierActive(uint8_t k);
-  boolean wasModifierActive(uint8_t k);
-  boolean isAnyModifierActive();
-  boolean wasAnyModifierActive();
-  boolean isKeyPressed(uint8_t k);
-  boolean wasKeyPressed(uint8_t k);
+  bool isModifierActive(uint8_t k);
+  bool wasModifierActive(uint8_t k);
+  bool isAnyModifierActive();
+  bool wasAnyModifierActive();
+  bool isKeyPressed(uint8_t k);
+  bool wasKeyPressed(uint8_t k);
 
-  uint8_t getLeds(void);
-  uint8_t getProtocol(void);
+  uint8_t getLeds();
+  uint8_t getProtocol();
   void setProtocol(uint8_t protocol);
 
-  uint8_t default_protocol = HID_REPORT_PROTOCOL;
+  uint8_t default_protocol;
 
  protected:
-  HID_BootKeyboardReport_Data_t _keyReport, _lastKeyReport;
+  HID_BootKeyboardReport_Data_t report_, last_report_;
 
   // Implementation of the PUSBListNode
   int getInterface(uint8_t* interfaceCount);

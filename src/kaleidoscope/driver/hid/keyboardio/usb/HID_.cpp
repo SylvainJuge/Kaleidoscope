@@ -132,15 +132,15 @@ bool HID_::setup(USBSetup& setup) {
 
   if (requestType == REQUEST_DEVICETOHOST_CLASS_INTERFACE) {
     if (request == HID_GET_REPORT) {
-      // TODO(anyone): HID_GetReport();
+      // TODO: HID_GetReport();
       return true;
     }
     if (request == HID_GET_PROTOCOL) {
-      // TODO(anyone): Send8(protocol);
+      // TODO: Send8(protocol);
       return true;
     }
     if (request == HID_GET_IDLE) {
-      // TODO(anyone): Send8(idle);
+      // TODO: Send8(idle);
     }
   }
 
@@ -152,7 +152,7 @@ bool HID_::setup(USBSetup& setup) {
       return true;
     }
     if (request == HID_SET_IDLE) {
-      idle = setup.wValueL;
+      idle = setup.wValueH;
       return true;
     }
     if (request == HID_SET_REPORT) {
@@ -170,16 +170,22 @@ bool HID_::setup(USBSetup& setup) {
   return false;
 }
 
-HID_::HID_(void) : PluggableUSBModule(1, 1, epType),
+HID_::HID_() : PluggableUSBModule(1, 1, epType),
   rootNode(NULL), descriptorSize(0),
   protocol(HID_REPORT_PROTOCOL), idle(1) {
   setReportData.reportId = 0;
   setReportData.leds = 0;
+
+#ifdef ARCH_HAS_CONFIGURABLE_EP_SIZES
+  epType[0] = EP_TYPE_INTERRUPT_IN(USB_EP_SIZE);
+#else
   epType[0] = EP_TYPE_INTERRUPT_IN;
+#endif
+
   PluggableUSB().plug(this);
 }
 
-int HID_::begin(void) {
+int HID_::begin() {
   return 0;
 }
 

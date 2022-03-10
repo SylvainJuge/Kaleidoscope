@@ -45,11 +45,14 @@ typedef union {
 
 class Mouse_ {
  public:
-  Mouse_(void);
-  void begin(void);
-  void end(void);
+  Mouse_();
+  void begin();
+  void end();
+  // Note: the following `click()` method is unlike the `move()`, `press()`, and
+  // `release()` methods, in that it doesn't merely modify the pending report,
+  // but also calls `sendReport()` at least twice.
   void click(uint8_t b = MOUSE_LEFT);
-  void move(signed char x, signed char y, signed char vWheel = 0, signed char hWheel = 0);
+  void move(int8_t x, int8_t y, int8_t v_wheel = 0, int8_t h_wheel = 0);
   void press(uint8_t b = MOUSE_LEFT);   // press LEFT by default
   void release(uint8_t b = MOUSE_LEFT); // release LEFT by default
   bool isPressed(uint8_t b = MOUSE_LEFT); // check LEFT by default
@@ -61,17 +64,17 @@ class Mouse_ {
    * @returns A copy of the report.
    */
   const HID_MouseReport_Data_t getReport() {
-    return report;
+    return report_;
   }
-  void sendReport(void);
+  void sendReport();
 
-  void releaseAll(void);
+  void releaseAll();
 
  protected:
-  HID_MouseReport_Data_t report;
-  HID_MouseReport_Data_t lastReport;
+  HID_MouseReport_Data_t report_;
+  uint8_t prev_report_buttons_ = 0;
 
  private:
-  void sendReportUnchecked(void);
+  void sendReportUnchecked();
 };
 extern Mouse_ Mouse;

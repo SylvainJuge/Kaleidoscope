@@ -26,37 +26,38 @@ THE SOFTWARE.
 #include "kaleidoscope/driver/hid/keyboardio/usb/MultiReport/SystemControl.h"
 #include "kaleidoscope/driver/hid/keyboardio/usb/DescriptorPrimitives.h"
 
-static const uint8_t _hidMultiReportDescriptorSystem[] PROGMEM = {
-  //TODO(anyone): limit to system keys only?
+static const uint8_t system_control_hid_descriptor_[] PROGMEM = {
+  //TODO limit to system keys only?
   /*  System Control (Power Down, Sleep, Wakeup, ...) */
-  D_USAGE_PAGE, D_PAGE_GENERIC_DESKTOP,								/* USAGE_PAGE (Generic Desktop) */
-  D_USAGE, 0x80,								/* USAGE (System Control) */
-  D_COLLECTION, D_APPLICATION, 							/* COLLECTION (Application) */
-  D_REPORT_ID, HID_REPORTID_SYSTEMCONTROL,		/* REPORT_ID */
+  D_USAGE_PAGE, D_PAGE_GENERIC_DESKTOP,         /* USAGE_PAGE (Generic Desktop) */
+  D_USAGE, 0x80,                                /* USAGE (System Control) */
+  D_COLLECTION, D_APPLICATION,                  /* COLLECTION (Application) */
+  D_REPORT_ID, HID_REPORTID_SYSTEMCONTROL,      /* REPORT_ID */
   /* 1 system key */
-  D_LOGICAL_MINIMUM, 0x00, 							/* LOGICAL_MINIMUM (0) */
-  D_MULTIBYTE(D_LOGICAL_MAXIMUM), 0xff, 0x00, 						/* LOGICAL_MAXIMUM (255) */
-  D_USAGE_MINIMUM, 0x00, 							/* USAGE_MINIMUM (Undefined) */
-  D_USAGE_MAXIMUM, 0xff, 							/* USAGE_MAXIMUM (System Menu Down) */
-  D_REPORT_COUNT, 0x01, 							/* REPORT_COUNT (1) */
-  D_REPORT_SIZE, 0x08, 							/* REPORT_SIZE (8) */
-  D_INPUT, (D_DATA | D_ARRAY | D_ABSOLUTE), 							/* INPUT (Data,Ary,Abs) */
-  D_END_COLLECTION 									/* END_COLLECTION */
+  D_LOGICAL_MINIMUM, 0x00,                      /* LOGICAL_MINIMUM (0) */
+  D_MULTIBYTE(D_LOGICAL_MAXIMUM), 0xff, 0x00,   /* LOGICAL_MAXIMUM (255) */
+  D_USAGE_MINIMUM, 0x00,                        /* USAGE_MINIMUM (Undefined) */
+  D_USAGE_MAXIMUM, 0xff,                        /* USAGE_MAXIMUM (System Menu Down) */
+  D_REPORT_COUNT, 0x01,                         /* REPORT_COUNT (1) */
+  D_REPORT_SIZE, 0x08,                          /* REPORT_SIZE (8) */
+  D_INPUT, (D_DATA | D_ARRAY | D_ABSOLUTE),     /* INPUT (Data,Ary,Abs) */
+  D_END_COLLECTION                              /* END_COLLECTION */
 };
 
-SystemControl_::SystemControl_(void) {
-  static HIDSubDescriptor node(_hidMultiReportDescriptorSystem, sizeof(_hidMultiReportDescriptorSystem));
+SystemControl_::SystemControl_() {
+  static HIDSubDescriptor node(system_control_hid_descriptor_,
+                               sizeof(system_control_hid_descriptor_));
   HID().AppendDescriptor(&node);
 }
 
-void SystemControl_::begin(void) {
+void SystemControl_::begin() {
   // release all buttons
   end();
 }
 
-void SystemControl_::end(void) {
-  uint8_t _report = 0x00;
-  sendReport(&_report, sizeof(_report));
+void SystemControl_::end() {
+  uint8_t report = 0x00;
+  sendReport(&report, sizeof(report));
 }
 
 void SystemControl_::write(uint8_t s) {
@@ -64,11 +65,11 @@ void SystemControl_::write(uint8_t s) {
   release();
 }
 
-void SystemControl_::release(void) {
+void SystemControl_::release() {
   begin();
 }
 
-void SystemControl_::releaseAll(void) {
+void SystemControl_::releaseAll() {
   begin();
 }
 

@@ -37,9 +37,22 @@ static const uint8_t _hidSingleReportDescriptorAbsoluteMouse[] PROGMEM = {
   D_END_COLLECTION                             /* End */
 };
 
+#ifdef ARCH_HAS_CONFIGURABLE_EP_SIZES
+static const uint8_t SINGLE_ABSOLUTEMOUSE_EP_SIZE = 6;
+#else
+static const uint8_t SINGLE_ABSOLUTEMOUSE_EP_SIZE = USB_EP_SIZE;
+#endif
 
-SingleAbsoluteMouse_::SingleAbsoluteMouse_(void) : PluggableUSBModule(1, 1, epType), protocol(HID_REPORT_PROTOCOL), idle(1) {
+
+
+SingleAbsoluteMouse_::SingleAbsoluteMouse_() : PluggableUSBModule(1, 1, epType), protocol(HID_REPORT_PROTOCOL), idle(1) {
+
+#ifdef ARCH_HAS_CONFIGURABLE_EP_SIZES
+  epType[0] = EP_TYPE_INTERRUPT_IN(SINGLE_ABSOLUTEMOUSE_EP_SIZE);
+#else
   epType[0] = EP_TYPE_INTERRUPT_IN;
+#endif
+
   PluggableUSB().plug(this);
 }
 
@@ -48,7 +61,7 @@ int SingleAbsoluteMouse_::getInterface(uint8_t* interfaceCount) {
   HIDDescriptor hidInterface = {
     D_INTERFACE(pluggedInterface, 1, USB_DEVICE_CLASS_HUMAN_INTERFACE, HID_SUBCLASS_NONE, HID_PROTOCOL_NONE),
     D_HIDREPORT(sizeof(_hidSingleReportDescriptorAbsoluteMouse)),
-    D_ENDPOINT(USB_ENDPOINT_IN(pluggedEndpoint), USB_ENDPOINT_TYPE_INTERRUPT, USB_EP_SIZE, 0x01)
+    D_ENDPOINT(USB_ENDPOINT_IN(pluggedEndpoint), USB_ENDPOINT_TYPE_INTERRUPT, SINGLE_ABSOLUTEMOUSE_EP_SIZE, 0x01)
   };
   return USB_SendControl(0, &hidInterface, sizeof(hidInterface));
 }
@@ -84,11 +97,11 @@ bool SingleAbsoluteMouse_::setup(USBSetup& setup) {
 
   if (requestType == REQUEST_DEVICETOHOST_CLASS_INTERFACE) {
     if (request == HID_GET_REPORT) {
-      // TODO(anyone): HID_GetReport();
+      // TODO: HID_GetReport();
       return true;
     }
     if (request == HID_GET_PROTOCOL) {
-      // TODO(anyone): Send8(protocol);
+      // TODO: Send8(protocol);
       return true;
     }
   }
